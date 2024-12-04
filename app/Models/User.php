@@ -18,9 +18,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
+        'phone_number',
+        'Date_OF_Birth',
+        'Address',
         'password',
+        'status',
     ];
 
     /**
@@ -44,5 +49,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected static function booted()
+{
+    static::created(function ($user) {
+        // Create a new savings account with default values
+        $user->savings()->create([
+            'account_balance' => 0,      // Initial balance
+            'interest_earned' => 0,      // Initial interest
+            'last_deposit_date' => null, // Set this as needed
+        ]);
+    });
+}
+    public function savings()
+    {
+        return $this->hasOne(Savings::class);
     }
 }

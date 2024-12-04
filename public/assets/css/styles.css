@@ -1,0 +1,23 @@
+
+:root {
+    --brand-lght-colors: #940e4d;
+    --brand-sld-colors: #5e213e;
+    /* --font: "Nunito", sans-serif; */
+    --text-color: white;
+    /* --font: "Poppins-Regular", sans-serif !important; */
+    /* --font: "Roboto Slab", serif; */
+}
+*,
+a,
+li {
+    text-decoration: none;
+    list-style: none;
+}
+
+body {
+    /* font-family: var(--font) !important; */
+}
+#menu a:hover ,.active , .dash a:hover {
+    /* background: linear-gradient(to right, #940e4d 0%, #5e213e 100%); */
+    border-bottom: 2px solid rgb(39, 39, 39);
+}

@@ -37,11 +37,11 @@
         </style>
         <div class="text-center w-full my-6">
             <!-- Main Title -->
-            <h3 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-gray-800 font-extrabold">
+            <h3 class="text-2xl sm:text-2xl md:text-3xl lg:text-4xl text-gray-800 font-extrabold">
                 WELCOME TO SACCOs (SOMS) CONFIGURATION
             </h3>
             <!-- Subtitle -->
-            <p class="text-lg sm:text-xl md:text-2xl text-gray-600 mt-2 font-medium">
+            <p class="text-md sm:text-lg md:text-xl text-gray-600 mt-2 font-medium">
                 Set up your organization and preferences to get started
             </p>
             <!-- Decorative Underline -->
@@ -104,7 +104,7 @@
 
                     <!-- Loan Calculation Value -->
                     <div class="hidden" id="typeLoan">
-                        <x-form.input id="loanMinAmount" name="loanMinAmount" label="Loan Calculation Value:" type="number"
+                        <x-form.input id="loanMaxAmount" name="loanMaxAmount" label="Loan Calculation Value:" type="number"
                             placeholder="Enter loan calculation value e.g., 50,000,000 or 5" icon="fas fa-coins" step="0.01"
                              />
                     </div>
@@ -158,15 +158,15 @@
                         placeholder="Admin Email" icon="fas fa-envelope" class="required" />
 
                     <!-- Phone Number Field -->
-                    <x-form.input id='phone_number' name='phone_number' label='' type='tel'
+                    <x-form.input id='phone_number' name='phone_number' label='Phone Number:' type='tel'
                         placeholder='Phone Number' icon='fas fa-phone' value='' :required='true' />
 
                     {{-- Date of Birth field --}}
-                    <x-form.input id='Date_OF_Birth' name='Date_OF_Birth' label='' type='date'
+                    <x-form.input id='Date_OF_Birth' name='Date_OF_Birth' label='Date Of Birth:' type='date'
                         placeholder='Date_OF_Birth' icon='fas fa-calendar' value='' :required='true' />
 
                     {{-- Address location field --}}
-                    <x-form.input id='Address' name='Address' label='' type='text' placeholder='Address'
+                    <x-form.input id='Address' name='Address' label='Location:' type='text' placeholder='Address'
                         icon='fas fa-location-pin' value='' :required='true' />
                     <x-form.input id="password" name="password" label="Password:" type="password"
                         placeholder="New Password" icon="fas fa-lock" class="required" />

@@ -14,15 +14,16 @@
             {{ $attributes->merge(['class' => 'w-full border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500']) }}
         >
             <option value="" disabled {{ is_null($selected) ? 'selected' : '' }}>{{ $placeholder }}</option>
-            @foreach($options as $option)
-                @dump($option)
+            @foreach($options as $key => $option)
+                {{-- @dump($option) --}}
                 @if (is_object($option))
                 <option value="{{ $option->id }}" {{ $selected == $option->id ? 'selected' : '' }}>{{ $option->id }} {{ $option->first_name }} {{ $option->last_name }}</option>
                                
                 @else
-                <option value="{{ $option }}" {{ $selected == $option ? 'selected' : '' }}>{{ $option }}</option>
+                <option value="{{ $key }}" {{ $selected == $key ? 'selected' : '' }}>{{ $option }}</option>
                 @endif
             @endforeach
+            
         </select>
     </div>
     @error($name)

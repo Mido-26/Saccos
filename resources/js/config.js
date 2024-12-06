@@ -11,9 +11,11 @@ $(document).ready(function () {
     // Toggle guarantor info when the checkbox is clicked
     $("#allowGuarantor").on("change", function () {
         if ($(this).is(":checked")) {
+            // $('.allowGuarantor').val(true);
             $("#guarantor-info").removeClass("hidden");
             $('#guarantor-info').find('input').addClass('required');
         } else {
+            // $('.allowGuarantor').val(false);
             $("#guarantor-info").addClass("hidden");
             $('#guarantor-info').find('input').removeClassClass('required');
         }
@@ -28,6 +30,24 @@ $(document).ready(function () {
     function updateButtons() {
         $("#prevBtn").prop("disabled", currentStep === 1);
         $("#nextBtn").text(currentStep === totalSteps ? "Submit" : "Next Step");
+    }
+
+    function validateDateOfBirth(inputField) {
+        const selectedDate = new Date(inputField.val()); // Get the selected date from the input field
+        const today = new Date();
+        const minAgeDate = new Date(today.setFullYear(today.getFullYear() - 18)); // 18 years ago
+    
+        // Reset today's date time to midnight to make the comparison date-based
+        today.setHours(0, 0, 0, 0);
+        minAgeDate.setHours(0, 0, 0, 0); // Reset time of minAgeDate for accurate comparison
+    
+        if (selectedDate > minAgeDate) {
+            // If the selected date is greater than the minimum date (18 years ago), show an error
+            return false; // Invalid date, under 18
+        } else {
+            // Date is valid
+            return true;
+        }
     }
 
     // Validate current step
@@ -56,6 +76,14 @@ $(document).ready(function () {
             }
 
             // Additional validation for specific fields
+            if (field.attr("type") === "date") {
+                console.log(field);
+                if (!validateDateOfBirth(field)) {
+                    isValid = false;
+                    field.parent().next(".error").text("You must be at least 18 years old.").show();
+                }
+            }
+            
             if (field.attr("type") === "email" && field.val().trim() !== "") {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(field.val())) {
@@ -137,15 +165,12 @@ $(document).ready(function () {
         const formData = $("#multiStepForm").serialize();
         $.ajax({
             url: '/settings/store',
-            method: 'GET',
+            method: 'POST',
             data: formData,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // If you're using Laravel
-            },
             success: function(response) {
                 console.log(response);
                 alert('Form submitted successfully!');
-                // location.reload();
+                location.href= '/email/verify';
             },
             error: function(error) {
                 alert('An error occurred. Please try again.');

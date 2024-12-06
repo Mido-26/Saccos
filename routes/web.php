@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\UserController;
@@ -10,9 +11,24 @@ use App\Http\Middleware\CheckAccountStatus;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionsController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
+Route::get('/email/verify', function(){
+    return view('auth.email-verification');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/dashboard'); 
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification email sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
-Route::middleware(['auth', CheckAccountStatus::class])->group(function () {
+Route::middleware(['auth','verified', CheckAccountStatus::class])->group(function () {
     // logout route
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
@@ -75,7 +91,7 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('forgot-password', [LoginController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('forgot-password', [LoginController::class, 'sendResetLinkEmail'])->name('password.reset');
-Route::get('/settings/store', [SettingsController::class, 'store'])->name('settings.store');
+Route::post('/settings/store', [SettingsController::class, 'store'])->name('settings.store');
 Route::get('config' ,function(){
     return view('config.index');
 });

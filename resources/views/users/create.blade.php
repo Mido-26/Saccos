@@ -14,7 +14,7 @@
                 <!-- First Name Field -->
                 <x-form.input id='first_name' name='first_name' label='' type='text' placeholder='First Name'
                     icon='fas fa-user' :required='true' />
-
+                
                 <!-- Last Name Field -->
                 <x-form.input id='last_name' name='last_name' label='' placeholder='Last Name' icon='fas fa-user'
                     :required='true' />

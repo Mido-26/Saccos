@@ -13,6 +13,8 @@
             <p class="text-center text-2xl text-green-700 uppercase font-extrabold mb-2">SOMS</p>
         </div>
 
+        @auth
+            
         <!-- Navigation Links -->
         <nav class="space-y-2">
             <!-- Dashboard -->
@@ -94,7 +96,7 @@
             
 
             <!-- Transactions -->
-            <a href="{{ route('inprogress') }}"
+            <a href="{{ route('transactions.index') }}"
                 class="flex items-center py-2 px-4 text-gray-700 hover:bg-gray-200 rounded transition capitalize 
                     {{ request()->is('transactions', 'transactions/*') ? 'border-l-4 border-green-700 bg-green-100 text-green-700' : '' }}">
                 <i class="fa-solid fa-exchange-alt mr-2"></i> Transactions
@@ -129,6 +131,9 @@
                 <i class="fa-solid fa-cog mr-2"></i> Settings
             </a>
         </nav>
+        
+        @endauth
+        @yield('configsteps')
     </div>
 </aside>
 

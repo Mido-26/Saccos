@@ -7,7 +7,9 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SavingsController;
 use App\Http\Middleware\CheckAccountStatus;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TransactionsController;
 
 
 Route::middleware(['auth', CheckAccountStatus::class])->group(function () {
@@ -22,7 +24,7 @@ Route::middleware(['auth', CheckAccountStatus::class])->group(function () {
     
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::Post('dashboard', [DashboardController::class, 'switchUser'])->name('dashboard');
-//    Route::resource('transactions', TransactionsController::class);
+   Route::resource('transactions', TransactionsController::class);
 
     Route::middleware([RoleMiddleware::class . ':admin,staff'])->group( function () : void {
         Route::resource('savings', SavingsController::class);
@@ -41,10 +43,9 @@ Route::middleware(['auth', CheckAccountStatus::class])->group(function () {
         return view('403');
     })->name('unauthorized');
     // Route for the Settings page (GET request)
-// Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
 
 // // Route for handling form submissions or other actions (POST request)
-// Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
+Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
 
 //     // Monthly Reports
 // Route::get('/reports/monthly', [ReportsController::class, 'monthlyReports'])->name('reports.monthly');
@@ -58,7 +59,6 @@ Route::get('/development-not-available', function() {
     return view('inprogress');
 })->name('inprogress');
 });
-
 Route::middleware('auth')->group( function(){
     Route::get('/inactive', function () {
         return view('inactive');
@@ -75,3 +75,10 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('forgot-password', [LoginController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('forgot-password', [LoginController::class, 'sendResetLinkEmail'])->name('password.reset');
+Route::get('/settings/store', [SettingsController::class, 'store'])->name('settings.store');
+Route::get('config' ,function(){
+    return view('config.index');
+});
+Route::get('config/create' ,function(){
+    return view('config.create');
+});

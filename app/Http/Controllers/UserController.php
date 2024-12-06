@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -35,8 +36,8 @@ class UserController extends Controller
             'last_name' => 'required|string|max:50',
             'email' => 'required|email|unique:users,email',
             'phone_number' => 'required|string|max:15|unique:users,phone_number',
-            'password' => 'required|string|min:6',
-            'Date_OF_Birth' => 'required|date',
+            'password' => 'required|string|min:6|confirmed',
+            'Date_OF_Birth' => ['required','date','before:' . now()->subYears(18)->format('Y-m-d')],
             'Address' => 'required|string',
         ]);
 
@@ -50,6 +51,8 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'status' => 'active',
         ]);
+
+        // Auth::login($user);
 
         return redirect()->route('users.create')->with('success', 'User registered successfully!');
     }

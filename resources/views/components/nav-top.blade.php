@@ -9,6 +9,8 @@
             </button>
             <h2 class="text-2xl font-semibold">@yield('name', 'Saccos')</h2>
         </div>
+        @auth
+        
         <div class="flex items-center gap-4">
 
             @if (Auth::check() && (Auth::user()->role == 'staff' || Auth::user()->role == 'admin'))
@@ -115,4 +117,6 @@
 
             </div>
         </div>
+            
+        @endauth
     </header>

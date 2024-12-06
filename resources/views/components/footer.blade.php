@@ -1,4 +1,3 @@
-
 <!-- Toast Container -->
 <div id="toastContainer" class="fixed top-10 right-0 mb-4 mr-4"></div>
 
@@ -35,52 +34,53 @@
         const notificationDropdown = document.getElementById('notificationDropdown');
         notificationDropdown.classList.toggle('hidden');
     }
-
-    // Close dropdowns when clicking outside
-    window.addEventListener('click', function (e) {
-        const dropdownButton = document.getElementById('dropdownButton');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        const notificationButton = document.getElementById('notificationButton');
-        const notificationDropdown = document.getElementById('notificationDropdown');
-       
-
-        if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
-            dropdownMenu.classList.add('hidden');
-        }
-
-        if (!notificationButton.contains(e.target) && !notificationDropdown.contains(e.target)) {
-            notificationDropdown.classList.add('hidden');
-        }
-    });
 </script>
+@auth
+    <script>
+        // Close dropdowns when clicking outside
+        window.addEventListener('click', function(e) {
+            const dropdownButton = document.getElementById('dropdownButton');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const notificationButton = document.getElementById('notificationButton');
+            const notificationDropdown = document.getElementById('notificationDropdown');
 
 
+            if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const showMoreButtons = document.querySelectorAll('.show-more');
+            if (!notificationButton.contains(e.target) && !notificationDropdown.contains(e.target)) {
+                notificationDropdown.classList.add('hidden');
+            }
+        });
+    </script>
+@endauth
+@auth
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const showMoreButtons = document.querySelectorAll('.show-more');
 
-        showMoreButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const fullDescription = this.getAttribute('data-full-description');
-                const descriptionParagraph = this.previousElementSibling;
-                const isShowingMore = this.textContent === 'Show Less';
+            showMoreButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const fullDescription = this.getAttribute('data-full-description');
+                    const descriptionParagraph = this.previousElementSibling;
+                    const isShowingMore = this.textContent === 'Show Less';
 
-                if (isShowingMore) {
-                    // Show truncated text
-                    descriptionParagraph.textContent = fullDescription.length > 90 ?
-                        fullDescription.slice(0, 90) + '...' : fullDescription;
-                    this.textContent = 'Show More';
-                } else {
-                    // Show full text
-                    descriptionParagraph.textContent = fullDescription;
-                    this.textContent = 'Show Less';
-                }
+                    if (isShowingMore) {
+                        // Show truncated text
+                        descriptionParagraph.textContent = fullDescription.length > 90 ?
+                            fullDescription.slice(0, 90) + '...' : fullDescription;
+                        this.textContent = 'Show More';
+                    } else {
+                        // Show full text
+                        descriptionParagraph.textContent = fullDescription;
+                        this.textContent = 'Show Less';
+                    }
+                });
             });
         });
-    });
-</script>
-
+    </script>
+@endauth
 </body>
 
 </html>

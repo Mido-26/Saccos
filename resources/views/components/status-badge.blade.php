@@ -8,6 +8,8 @@
         'disbursed' => 'bg-blue-100 text-blue-800',
         'active' => 'border-1 bg-green-100 text-green-800',
         'inactive' => 'border-1 bg-red-100 text-red-800',
+        'deposit' => 'bg-green-100 text-green-800',
+        'withdrawal' => 'bg-red-100 text-red-800',
     ];
 @endphp
 

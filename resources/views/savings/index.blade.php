@@ -21,7 +21,7 @@
                     ],
                     )
                     ->toArray()" selectable :actions="fn($row) => view('components.action-buttons', ['data' => $row, 'route' => 'savings'])"
-            />
+        />
             <!-- Pagination Links -->
             <div class="mt-4 border-t border-gray-400 pt-2">
                 {{ $savings->links('pagination::tailwind') }}

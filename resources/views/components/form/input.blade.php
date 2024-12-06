@@ -1,6 +1,6 @@
-@props(['id', 'name', 'type' => 'text', 'label', 'placeholder' => '', 'icon' => null, 'value' => null, 'required' => false, 'step' => null])
+@props(['hidden' => false , 'id', 'name', 'type' => 'text', 'label', 'placeholder' => '', 'icon' => null, 'value' => null, 'required' => false, 'step' => null])
 
-<div class="mb-4">
+<div class="mb-4 {{ $hidden ? 'hidden' : '' }}">
     <label for="{{ $id }}" class="block text-sm font-medium text-gray-700 mb-1">{{ $label }}</label>
     <div class="relative">
         @if($icon)
@@ -16,6 +16,7 @@
             {{ $required ? 'required' : '' }}
         >
     </div>
+    <span class="error text-red-500 text-sm hidden"></span>
     @error($name)
         <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
     @enderror

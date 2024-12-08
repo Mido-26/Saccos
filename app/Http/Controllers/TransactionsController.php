@@ -83,10 +83,10 @@ class TransactionsController extends Controller
             //  dd($savingsAccount);
             // $userId = $->user_id;
             // Handle the transaction balance update based on the type (Deposit/Withdrawal)
-            if ($request->type == 'Deposit') {
+            if ($request->type == 'deposit') {
                 $savingsAccount->account_balance += $request->amount;  // Increase balance on deposit
                 $savingsAccount->last_deposit_date = now();
-            } elseif ($request->type == 'Withdrawal') {
+            } elseif ($request->type == 'withdrawal') {
                 if ($savingsAccount->account_balance >= $request->amount) {
                     $savingsAccount->account_balance -= $request->amount;  // Decrease balance on withdrawal
                     $savingsAccount->last_deposit_date = now();
@@ -106,7 +106,6 @@ class TransactionsController extends Controller
                 'description' => $validated['description'] ?? null,
                 'transaction_reference' => Transactions::generateTransactionReference(), // Generate unique reference
                 'payment_method' => $validated['payment_method'],
-                'currency' => 'TZS',
                 'initiator_id' => Auth::id(), // Logged-in user
                 'completed_at' => now(),
             ]);
@@ -168,17 +167,17 @@ class TransactionsController extends Controller
         $savingsAccount = $transaction->user->savings;
         // dd($savingsAccount);
         // Reverse the previous transaction impact on the account balance
-        if ($transaction->type == 'Deposit') {
+        if ($transaction->type == 'deposit') {
             $savingsAccount->account_balance -= $transaction->amount;
-        } elseif ($transaction->type == 'Withdrawal') {
+        } elseif ($transaction->type == 'withdrawal') {
             $savingsAccount->account_balance += $transaction->amount;
         }
 
         // Update balance based on new transaction type and amount
-        if ($request->type == 'Deposit') {
+        if ($request->type == 'deposit') {
             $savingsAccount->account_balance += $request->amount;
             $savingsAccount->last_deposit_date = now();
-        } elseif ($request->type == 'Withdrawal') {
+        } elseif ($request->type == 'withdrawal') {
             if ($savingsAccount->account_balance >= $request->amount) {
                 $savingsAccount->account_balance -= $request->amount;
             } else {

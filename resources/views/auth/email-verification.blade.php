@@ -26,17 +26,24 @@
                 Didn't receive the email? Check your spam folder or click the button below to resend the verification email.
             </p>
             
-            <!-- Resend email button -->
-            <a href="{{ route('verification.send') }}" 
-               class="mt-6 inline-block bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-600 transition duration-300">
-                <i class="fas fa-paper-plane"></i> Resend Email
-            </a>
-
-            <!-- Go back button -->
-            <a href="{{ url('/') }}" 
-               class="mt-4 inline-block bg-gray-300 text-gray-800 font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-gray-400 transition duration-300">
-                <i class="fas fa-home"></i> Go Back to Home
-            </a>
+            <div class="flex gap-4 items-center justify-center">
+                <!-- Resend email button -->
+                <form action="{{ route('verification.send') }}" method="post">
+                    @csrf
+                    <button
+                   class="mt-6 inline-block bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-600 transition duration-300">
+                    <i class="fas fa-paper-plane"></i> Resend Email
+                    </button>
+                </form>
+                
+                <div>
+                    <!-- Go back button -->
+                    <a href="{{ url('/') }}"
+                       class="mt-4 inline-block bg-gray-300 text-gray-800 font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-gray-400 transition duration-300">
+                        <i class="fas fa-home"></i> Go Back to Home
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </body>

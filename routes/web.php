@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Middleware\CheckConfigs;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoansController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SavingsController;
@@ -12,6 +14,9 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionsController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
+
+Route::middleware(CheckConfigs::class)->group( function(){
 
 Route::get('/email/verify', function(){
     return view('auth.email-verification');
@@ -40,7 +45,7 @@ Route::middleware(['auth','verified', CheckAccountStatus::class])->group(functio
     
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::Post('dashboard', [DashboardController::class, 'switchUser'])->name('dashboard');
-   Route::resource('transactions', TransactionsController::class);
+    Route::resource('transactions', TransactionsController::class);
 
     Route::middleware([RoleMiddleware::class . ':admin,staff'])->group( function () : void {
         Route::resource('savings', SavingsController::class);
@@ -52,8 +57,8 @@ Route::middleware(['auth','verified', CheckAccountStatus::class])->group(functio
     // Route::get('/loans', [LoansController::class, 'index'])->name('loans.index');
     // Route::get('/loans/pending', [LoansController::class, 'pending'])->name('loans.pending');
     // Route::get('/loans/approved', [LoansController::class, 'approved'])->name('loans.approved');
-    // Route::resource('loans', LoansController::class);
-    // Route::patch('/loans/{loan}/change-status', [LoansController::class, 'changeStatus'])->name('loans.changeStatus');
+    Route::resource('loans', LoansController::class);
+    Route::patch('/loans/{loan}/change-status', [LoansController::class, 'changeStatus'])->name('loans.changeStatus');
 
     Route::get('/unauthorized', function () {
         return view('403');
@@ -91,10 +96,12 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('forgot-password', [LoginController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('forgot-password', [LoginController::class, 'sendResetLinkEmail'])->name('password.reset');
+
+});
 Route::post('/settings/store', [SettingsController::class, 'store'])->name('settings.store');
 Route::get('config' ,function(){
     return view('config.index');
-});
+})->name('config');
 Route::get('config/create' ,function(){
     return view('config.create');
 });

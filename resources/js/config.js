@@ -145,6 +145,8 @@ $(document).ready(function () {
             // Final submission
             if (validateStep(currentStep)) {
                 submitForm();
+                // $('#loader').show();
+                $('#loader').removeClass('hidden');
             }
         }
     });
@@ -169,10 +171,13 @@ $(document).ready(function () {
             data: formData,
             success: function(response) {
                 console.log(response);
+
                 alert('Form submitted successfully!');
+                $('#loader').addClass('hidden');
                 location.href= '/email/verify';
             },
             error: function(error) {
+                $('#loader').addClass('hidden');
                 alert('An error occurred. Please try again.');
                 console.log(error);  // Log the error for debugging
             }

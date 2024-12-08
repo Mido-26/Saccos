@@ -1,17 +1,39 @@
+@php
+    $maxLoan = 0;
+    $currency = $settings->currency;
+    // Determine the max loan based on the loan type
+    switch ($settings->loan_type) {
+        case 'fixed':
+            $maxLoan = $settings->loan_max_amount;
+            break;
+        case 'reducing':
+            $maxLoan = $user->savings->account_balance * $settings->loan_max_amount;
+            break;
+        default:
+            $maxLoan = 0; // Optional: Handle unexpected loan type
+            break;
+    }
+    // Format the max loan amount
+    $maxLoan = number_format($maxLoan, 2);
+@endphp
+
 <div class="w-full">
-    <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-700">
+    <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-700 capitalize">
         Hi 👋 {{ $user->first_name }} {{ $user->last_name }}
     </h3>
     <div class="flex flex-wrap items-center py-4">
         <p class="text-lg sm:text-xl font-semibold text-gray-500">
-            Your Total Savings Are 
+            Your Total Savings Are
         </p>
-        <span class="text-2xl sm:text-3xl font-bold bg-white px-2 py-1 mx-3 rounded-xl underline-offset-2 text-gray-500 inline-block">
-            TZS 
+        <span
+            class="text-2xl sm:text-3xl font-bold bg-white px-2 py-1 mx-3 rounded-xl underline-offset-2 text-gray-500 inline-block">
+            {{ $currency }}
             <span id="amount">******</span> <!-- Default view is asterisks -->
-            <i id="toggleVisibility" class="fas fa-eye-slash ml-2 hover:text-gray-700 cursor-pointer"></i> <!-- Default icon is eye-slash -->
-        </span>           
+            <i id="toggleVisibility" class="fas fa-eye-slash ml-2 hover:text-gray-700 cursor-pointer"></i>
+            <!-- Default icon is eye-slash -->
+        </span>
     </div>
+
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Active Loan Card -->
@@ -40,7 +62,8 @@
                 <h5 class="text-sm sm:text-md font-semibold text-gray-600">Due Date</h5>
                 <p class="text-lg sm:text-xl font-bold">Aug, 13</p>
             </div>
-            <button class="bg-green-500 w-full text-white font-bold text-base sm:text-lg px-4 py-2 rounded-lg hover:bg-green-600 flex items-center justify-center">
+            <button
+                class="bg-green-500 w-full text-white font-bold text-base sm:text-lg px-4 py-2 rounded-lg hover:bg-green-600 flex items-center justify-center">
                 <i class="fas fa-credit-card mr-2"></i> Repay before Due
             </button>
         </div>
@@ -58,15 +81,15 @@
             <hr>
             <div class="mt-4">
                 <h5 class="text-sm sm:text-md font-semibold text-gray-600">You can get up to:</h5>
-                <p class="text-lg sm:text-xl font-bold">TZS 1,000,000</p>
+                <p class="text-lg sm:text-xl font-bold">{{ $currency }} {{ $maxLoan }}</p>
             </div>
             <p class="text-sm text-gray-500 mt-2 mb-4">
                 Apply for a quick loan to help you meet your financial needs.
             </p>
-            <a href="{{ route('inprogress') }}" 
+            <a href="{{ route('inprogress') }}"
                 class="bg-blue-500 w-full text-white font-bold text-base sm:text-lg px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center justify-center">
                 <i class="fas fa-hand-holding-usd mr-2"></i> Apply Now
-            </a >
+            </a>
         </div>
     </div>
 
@@ -135,7 +158,7 @@
     document.getElementById('toggleVisibility').addEventListener('click', function() {
         const amountElement = document.getElementById('amount');
         const originalAmount = "{{ number_format($user->savings->account_balance, 2) }}";
-        
+
         // Toggle between showing amount and asterisks
         if (amountElement.textContent === originalAmount) {
             amountElement.textContent = '******'; // Replace with asterisks

@@ -29,10 +29,6 @@
                 <x-form.select-field name="payment_method" label="Payment Method" :options="['bank_transfer' => 'Bank Transfer', 'mobile_money' => 'Mobile Money', 'cash' => 'Cash']"
                     placeholder="Select a payment method" icon="fas fa-wallet" :required="true" />
 
-                {{-- Currency --}}
-                {{-- <x-form.select-field name="currency" label="Currency" :options="['TZS' => 'Tanzanian Shilling', 'USD' => 'US Dollar', 'EUR' => 'Euro']" placeholder="Select a currency"
-                    icon="fas fa-money-bill-wave" :required="true" :selected="'TZS'" /> --}}
-
                 {{-- Description --}}
                 <x-form.text-area id="description" name="description" label="Description"
                     placeholder="Enter a detailed description" icon="fas fa-comment" :required="true" rows="5" />

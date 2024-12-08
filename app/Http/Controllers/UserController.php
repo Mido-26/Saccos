@@ -36,7 +36,7 @@ class UserController extends Controller
             'last_name' => 'required|string|max:50',
             'email' => 'required|email|unique:users,email',
             'phone_number' => 'required|string|max:15|unique:users,phone_number',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'password',
             'Date_OF_Birth' => ['required','date','before:' . now()->subYears(18)->format('Y-m-d')],
             'Address' => 'required|string',
         ]);
